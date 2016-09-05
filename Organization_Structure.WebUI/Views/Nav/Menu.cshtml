@@ -1,0 +1,68 @@
+﻿@using System.ServiceModel.Activation.Configuration
+@using Organization_Structure.Domain.Concrete
+@using Organization_Structure.Domain.Entities
+@model IEnumerable<Group>
+
+@{
+	EFDbContext context = new EFDbContext();
+	IEnumerable<Department> departments = context.Departments;
+	IEnumerable<Employee> employees = context.Employees;
+	IEnumerable<Position> positions = context.Positions;
+	int numbId = 1;
+	int buf = 2;
+	int depNumb = 1;
+}
+
+<table class="tree">
+	@foreach (var managment in context.Managements)
+	{
+		string strId = "treegrid-";
+		string parId = "treegrid-parent-";
+		string id = strId + numbId;
+		<tr class="@id">
+			<td>@managment.Title</td>
+			<td>Additional info</td>
+		</tr>
+		numbId++;
+		var dd = parId + depNumb;
+		var ss = parId + buf;
+
+		foreach (var departent in departments.Where(s => s.ManagementId == managment.Id))
+		{
+			id = strId + numbId;
+
+			<tr class="@id @dd">
+				<td>@departent.Title</td>
+				<td>Additional info</td>
+			</tr>
+			numbId++;
+			buf++;
+			foreach (var group in Model.Where(s => s.DepartmentId == departent.Id))
+			{
+				id = strId + numbId;
+
+				<tr class="@id @ss">
+					<td>
+						@Html.RouteLink(group.Title, new
+						{
+							controller = "Employee",
+							action = "List",
+							group = group.Id.ToString(),
+							page = 1
+						}, new
+						{
+							@class = "h5" + (group.Id == (ViewBag.SelectedGroup == null ? 0 : ViewBag.SelectedGroup) ? "act" : "")
+						})
+					</td>
+					<td>
+						Additional info
+					</td>
+				</tr>
+				numbId++;
+				buf++;
+			}
+			ss = parId + buf;
+		}
+		depNumb++;
+	}
+</table>

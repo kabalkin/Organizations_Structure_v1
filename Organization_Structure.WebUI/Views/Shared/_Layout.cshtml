@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../../Content/bootstrap.min.css" rel="stylesheet">
+	<link href="../../Content/dashboard.css" rel="stylesheet">
+	<link rel="stylesheet" href="../../Content/styles.css">
+	<link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css">
+	<link rel="stylesheet" href="../../Content/jquery.treegrid.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../../Scripts/jquery.treegrid.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.tree').treegrid();
+		});
+	</script>
+	<title>@ViewBag.Title</title>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				@Html.ActionLink("Organization Structure", "List", "Employee", null,
+	new { @class = "navbar-brand" })
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<a class="navbar-brand" href="../Admin/Index">Admin panel</a>
+				</ul>
+			</div>
+		</div>
+	</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-5 sidebar">
+			@Html.Action("Menu", "Nav")
+		</div>
+		<div class="col-sm-9 col-sm-offset-5 col-md-7 col-md-offset-5 main">
+			@RenderBody()
+		</div>
+	</div>
+	<script src="../../Scripts/bootstrap.js"></script>
+</div>
+</body>
+</html>

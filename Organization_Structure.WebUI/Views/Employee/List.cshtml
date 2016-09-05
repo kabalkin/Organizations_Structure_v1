@@ -1,0 +1,59 @@
+﻿@using Organization_Structure.Domain.Concrete
+@using Organization_Structure.Domain.Entities
+@using Organization_Structure.WebUI.Models
+@using Organization_Structure.WebUI.HtmlHelper
+@model EmployeesListViewModel
+
+@{
+	ViewBag.Title = "Employees";
+	IEnumerable<Group> groups = new EFDbContext().Groups;
+	IEnumerable<Position> positions = new EFDbContext().Positions;
+
+}
+
+
+	<h2 class="sub-header">Employees</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th>FIO</th>
+			<th>Position</th>
+			<th>Group</th>
+		</tr>
+		</thead>
+		<tbody>
+
+		@foreach (var emp in @Model.Employees)
+		{
+			<tr>
+				<td>@emp.Id</td>
+				<td>@emp.FIO</td>
+				<td>@positions.FirstOrDefault(s=> s.Id == emp.PositionId).Description</td>
+				<td>@groups.FirstOrDefault(s => s.Id == emp.GroupID).Title</td>
+			</tr>
+		}
+
+		</tbody>
+	</table>
+</div>
+
+<div class="btn-group pull-right">
+	@Html.PageLinks(Model.PagingInfo, x => Url.Action("List",
+		new { page = x, group = Model.CurrentGroup }))
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
